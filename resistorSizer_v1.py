@@ -1,3 +1,6 @@
+## Searches for best resistor combination w/ loss function to match targeted output
+## Broken
+
 import math
 from random import seed
 from random import random
@@ -15,7 +18,7 @@ class SOl:
     R3=0 
     R4=0
     cost=9999999999999999999
-    ex_voltage=24 # wabt v
+    ex_voltage=24 # want v
     ex_curre=.25 # want current
     pred_volatage=0
     pred_curre=0
