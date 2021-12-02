@@ -4,7 +4,7 @@
 import math
 from random import seed
 from random import random
-def MSE(x,y):
+def MSE(x,y): #Mean Sqaure Error
     if(x==y):
         return 0
     x=(x**2)

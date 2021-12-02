@@ -23,13 +23,15 @@ class SOl:
     pred_volatage=0
     pred_curre=0
     voltage = 1200 # battery
-
+    pred_rt=0
+    ex_rt=2800
     def __init__(self,a,b,c,d):
         self.R1=a
         self.R2=b
         self.R3=c
         self.R4=d
         total_current=self.voltage/(self.R1+((1/(self.R4+self.R3))+(1/self.R2))**-(1))
+        self.pred_rt=(self.R1+((1/(self.R4+self.R3))+(1/self.R2))**-(1))
         V_accross_R1=total_current*self.R1
         current=total_current*(self.R2/(self.R3+self.R4+self.R2))
         #if(self.R2==110):
@@ -39,10 +41,10 @@ class SOl:
         self.pred_curre=current
 
     def compute_cost(self):
-        self.cost=MSE(self.pred_volatage,self.ex_voltage)+MSE(self.ex_curre,self.pred_curre)*100
+        self.cost=MSE(self.pred_volatage,self.ex_voltage)*1000+MSE(self.pred_rt,self.ex_rt)/10
     def compare(self,Compare):
         if(self.cost>Compare.cost):
-            print("NEW BEST FOUND:: with a cost of (",self.cost,") With voltage (",self.pred_volatage,") and current (",self.pred_curre,")")
+            print("NEW BEST FOUND:: with a cost of (",self.cost,") With voltage (",self.pred_volatage,") and current (",self.pred_curre,") AND A RT of(",self.pred_rt,")")
             return(Compare)
         else:
             return(self)
@@ -73,7 +75,7 @@ BEST=SOl(R[0],R[0],R[0],R[0])
 for R1 in (R):
     for R2 in (R):
         for R3 in (R):
-                tmp=SOl(2800,R2,R3,R4)
+                tmp=SOl(R1,R2,R3,R4)
                 tmp.compute_cost()
                 BEST=BEST.compare(tmp)
 print(BEST)
